@@ -1,12 +1,27 @@
 # iOS OTP Generators
 
-Project contains generators for [one time password](https://en.wikipedia.org/wiki/One-time_password) based on time and on counter. Code is written in [Swift2](https://developer.apple.com/swift/) and depends on CommonCrypto module.
+Project contains generators for [one time password](https://en.wikipedia.org/wiki/One-time_password) based on time and on counter. Code is written in [Swift2](https://developer.apple.com/swift/) and depends on CommonCrypto module. At this moment CommonCrypto is not a modular framework and all it's headers has been compiled into this library. Unfortunatelly it's the only way to make it work foe the time being.
 
-### CommonCrypto - C modules & Swift
+### Installation
 
-Long story short, one has to create `module.map` file with pointing to header files of concrete module and then in `Build Settings` add path to `Swift compiler search paths`. 
+#### Requirements
 
-![Build Settings](/Screenshots/module_map_in_xcode.png?raw=true)
+`OTPGenerator` is written in Swift 2 so it requires XCode 7.
+
+#### CocoaPods
+
+```
+use_frameworks!
+pod 'OTPGenerator', '~> 1.0'
+```
+Then in files where you need to use it just add:
+```
+import OTPGenerator
+```
+
+#### Manually
+
+Drag the project file into XCode and use it as it's shown in example.
 
 ### References
 
