@@ -1,4 +1,6 @@
 # iOS OTP Generators
+[![Build Status](https://travis-ci.org/codewise/ios-otp-generators.svg?branch=master)](https://travis-ci.org/codewise/ios-otp-generators)
+[![Cocoapods](https://cocoapod-badges.herokuapp.com/v/OTPGenerator/badge.png)](http://cocoapods.org/?q=otpgenerator)
 
 Project contains generators for [one time password](https://en.wikipedia.org/wiki/One-time_password) based on time and on counter. Code is written in [Swift2](https://developer.apple.com/swift/) and depends on CommonCrypto module. At this moment CommonCrypto is not a modular framework and all it's headers has been compiled into this library. Unfortunatelly it's the only way to make it work foe the time being.
 
