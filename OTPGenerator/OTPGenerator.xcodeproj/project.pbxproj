@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD9AD0171BF62C2900A2F8CF /* Base32.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9AD0161BF62C2900A2F8CF /* Base32.swift */; };
 		BDD055F31BC3F809000C5112 /* OTPGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD055F21BC3F809000C5112 /* OTPGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDD055FA1BC3F809000C5112 /* OTPGenerator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD055EF1BC3F809000C5112 /* OTPGenerator.framework */; };
 		BDD0560C1BC3F82A000C5112 /* HOTPGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD056091BC3F82A000C5112 /* HOTPGenerator.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BD9AD0161BF62C2900A2F8CF /* Base32.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base32.swift; sourceTree = "<group>"; };
 		BDD055EF1BC3F809000C5112 /* OTPGenerator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OTPGenerator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDD055F21BC3F809000C5112 /* OTPGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTPGenerator.h; sourceTree = "<group>"; };
 		BDD055F41BC3F809000C5112 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 		BDD055F11BC3F809000C5112 /* OTPGenerator */ = {
 			isa = PBXGroup;
 			children = (
+				BD9AD0161BF62C2900A2F8CF /* Base32.swift */,
 				BDD056091BC3F82A000C5112 /* HOTPGenerator.swift */,
 				BDD0560A1BC3F82A000C5112 /* OTPGenerator.swift */,
 				BDD0560B1BC3F82A000C5112 /* TOTPGenerator.swift */,
@@ -218,6 +221,7 @@
 				BDD0560C1BC3F82A000C5112 /* HOTPGenerator.swift in Sources */,
 				BDD0560E1BC3F82A000C5112 /* TOTPGenerator.swift in Sources */,
 				BDD0560D1BC3F82A000C5112 /* OTPGenerator.swift in Sources */,
+				BD9AD0171BF62C2900A2F8CF /* Base32.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

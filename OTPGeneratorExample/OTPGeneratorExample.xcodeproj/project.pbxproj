@@ -14,10 +14,10 @@
 		BDD056271BC3FB2F000C5112 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDD056251BC3FB2F000C5112 /* Main.storyboard */; };
 		BDD056291BC3FB2F000C5112 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDD056281BC3FB2F000C5112 /* Assets.xcassets */; };
 		BDD0562C1BC3FB2F000C5112 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDD0562A1BC3FB2F000C5112 /* LaunchScreen.storyboard */; };
-		BDD056401BC3FB9E000C5112 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD0563C1BC3FB9E000C5112 /* Common.swift */; settings = {ASSET_TAGS = (); }; };
-		BDD056411BC3FB9E000C5112 /* GeneratorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD0563D1BC3FB9E000C5112 /* GeneratorFactory.swift */; settings = {ASSET_TAGS = (); }; };
-		BDD056421BC3FB9E000C5112 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD0563E1BC3FB9E000C5112 /* SettingsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		BDD056431BC3FB9E000C5112 /* TokenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD0563F1BC3FB9E000C5112 /* TokenViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		BDD056401BC3FB9E000C5112 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD0563C1BC3FB9E000C5112 /* Common.swift */; };
+		BDD056411BC3FB9E000C5112 /* GeneratorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD0563D1BC3FB9E000C5112 /* GeneratorFactory.swift */; };
+		BDD056421BC3FB9E000C5112 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD0563E1BC3FB9E000C5112 /* SettingsViewController.swift */; };
+		BDD056431BC3FB9E000C5112 /* TokenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD0563F1BC3FB9E000C5112 /* TokenViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,7 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				BDD056541BC40353000C5112 /* OTPGenerator.framework */,
-				BDD056561BC40353000C5112 /* OTPGenerator.xctest */,
+				BDD056561BC40353000C5112 /* OTPGeneratorTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -196,10 +196,10 @@
 			remoteRef = BDD056531BC40353000C5112 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BDD056561BC40353000C5112 /* OTPGenerator.xctest */ = {
+		BDD056561BC40353000C5112 /* OTPGeneratorTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = OTPGenerator.xctest;
+			path = OTPGeneratorTests.xctest;
 			remoteRef = BDD056551BC40353000C5112 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

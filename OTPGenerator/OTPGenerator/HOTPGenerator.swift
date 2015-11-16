@@ -33,9 +33,9 @@ public class HOTPGenerator: OTPGenerator {
      - parameter pinLength: Length of generated tokens, must be between 1 and 8 digits, defaults to 6
      - parameter algorithm: Algorithm used for token generation, defaults to SHA1
      */
-    public init?(secret: String, counter: uint_fast64_t, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.SHA1) {
+    public init?(secret: String, counter: uint_fast64_t, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.SHA1, secretIsBase32: Bool = true) {
         self.counter = counter
-        super.init(secret: secret, pinLength: pinLength, algorithm: algorithm)
+        super.init(secret: secret, pinLength: pinLength, algorithm: algorithm, secretIsBase32: secretIsBase32)
     }
 
     /**
