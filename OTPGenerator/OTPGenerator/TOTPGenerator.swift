@@ -35,9 +35,9 @@ public class TOTPGenerator: OTPGenerator {
     - parameter pinLength: Length of generated tokens, must be between 1 and 8 digits, defaults to 6
     - parameter algorithm: Algorithm used for token generation, defaults to SHA1
     */
-    public init?(secret: String, period: NSTimeInterval, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.SHA1) {
+    public init?(secret: String, period: NSTimeInterval, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.SHA1, secretIsBase32: Bool = true) {
         self.period = period
-        super.init(secret: secret, pinLength: pinLength, algorithm: algorithm)
+        super.init(secret: secret, pinLength: pinLength, algorithm: algorithm, secretIsBase32: secretIsBase32)
 
         if period <= 0 || period > 300 {
             return nil

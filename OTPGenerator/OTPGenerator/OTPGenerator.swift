@@ -77,10 +77,19 @@ public class OTPGenerator: OTPGeneratorProtocol {
     - parameter pinLength: Length of generated tokens, must be between 1 and 8 digits
     - parameter algorithm: Algorigthm used for token generation, defaults to SHA1
     */
-    internal init?(secret: String, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.SHA1) {
+    internal init?(secret: String, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.SHA1, secretIsBase32: Bool = true) {
         self.secretKey = secret.dataUsingEncoding(NSUTF8StringEncoding)!
         self.pinLength = pinLength
         self.algorithm = algorithm
+
+        if secretIsBase32 {
+            if let secretKey = secret.base32DecodedData {
+                self.secretKey = secretKey
+            }
+            else {
+                return nil
+            }
+        }
 
         if pinLength < 1 || pinLength > 8 {
             return nil
