@@ -33,7 +33,7 @@ class TOTPGeneratorTests: XCTestCase {
     ]
 
     func testInitOK() {
-        let generator = TOTPGenerator(secret: "abc", period: 30, pinLength: 1, algorithm: .SHA1)
+        let generator = TOTPGenerator(secret: "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", period: 30, pinLength: 1, algorithm: .SHA1)
         XCTAssertNotNil(generator)
     }
 
@@ -45,7 +45,7 @@ class TOTPGeneratorTests: XCTestCase {
     }
 
     func testDefaultGeneratorToken() {
-        let generator = TOTPGenerator(secret: "abc", period: 30, pinLength: 6, algorithm: .SHA1)
+        let generator = TOTPGenerator(secret: "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", period: 30, pinLength: 6, algorithm: .SHA1)
         let token = generator?.generateOTP()
         XCTAssertNotNil(token)
     }
