@@ -8,7 +8,7 @@ Project contains generators for [one time password](https://en.wikipedia.org/wik
 
 #### Requirements
 
-`OTPGenerator` is written in Swift 2 so it requires XCode 7.
+`OTPGenerator` is written in Swift 2 so it requires Xcode 7.
 
 #### CocoaPods
 
@@ -23,7 +23,7 @@ import OTPGenerator
 
 #### Manually
 
-Drag the project file into XCode and use it as it's shown in example.
+Drag the project file into Xcode and use it as it's shown in example.
 
 ### References
 
