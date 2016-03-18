@@ -42,7 +42,7 @@ class TokenViewController: UIViewController {
             return
         }
 
-        self.generator = GeneratorFactory.generatorWithSecretKey(secret, type: generatorType)
+        self.generator = GeneratorFactory.generatorWithSecretKey(secret, type: generatorType, secretIsBase32: false)
 
         if generatorType == .TOTP {
             self.generatorTimer = NSTimer.scheduledTimerWithTimeInterval((self.generator as! TOTPGenerator).period, target: self, selector: "refreshTokenLabel", userInfo: nil, repeats: true)

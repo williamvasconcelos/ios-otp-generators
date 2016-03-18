@@ -28,6 +28,22 @@ import Foundation
 
 // https://tools.ietf.org/html/rfc4648
 
+extension String {
+    /// NSData never nil
+    internal var dataUsingUTF8StringEncoding: NSData {
+        return nulTerminatedUTF8.withUnsafeBufferPointer {
+            return NSData(bytes: $0.baseAddress, length: $0.count - 1)
+        }
+    }
+
+    /// Array<UInt8>
+    internal var arrayUsingUTF8StringEncoding: [UInt8] {
+        return nulTerminatedUTF8.withUnsafeBufferPointer {
+            return Array(UnsafeBufferPointer(start: $0.baseAddress, count: $0.count - 1))
+        }
+    }
+}
+
 // MARK: - Base32 NSData <-> String
 
 public func base32Encode(data: NSData) -> String {
@@ -121,7 +137,7 @@ extension NSData {
     }
 
     public var base32EncodedData: NSData {
-        return base32EncodedString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+        return base32EncodedString.dataUsingUTF8StringEncoding
     }
 
     public var base32DecodedData: NSData? {
@@ -138,7 +154,7 @@ extension NSData {
     }
 
     public var base32HexEncodedData: NSData {
-        return base32HexEncodedString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
+        return base32HexEncodedString.dataUsingUTF8StringEncoding
     }
 
     public var base32HexDecodedData: NSData? {
@@ -255,7 +271,7 @@ let alphabetDecodeTable: [UInt8] = [
     __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0x00 - 0x0F
     __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0x10 - 0x1F
     __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0x20 - 0x2F
-    __,__,26,27, 28,29,30,31, __,__,__,__, __, 0, __,__,  // 0x30 - 0x3F
+    __,__,26,27, 28,29,30,31, __,__,__,__, __,__, __,__,  // 0x30 - 0x3F
     __, 0, 1, 2,  3, 4, 5, 6,  7, 8, 9,10, 11,12,13,14,  // 0x40 - 0x4F
     15,16,17,18, 19,20,21,22, 23,24,25,__, __,__,__,__,  // 0x50 - 0x5F
     __, 0, 1, 2,  3, 4, 5, 6,  7, 8, 9,10, 11,12,13,14,  // 0x60 - 0x6F

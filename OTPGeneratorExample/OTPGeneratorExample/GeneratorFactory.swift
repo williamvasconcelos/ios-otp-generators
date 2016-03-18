@@ -8,7 +8,7 @@ import OTPGenerator
 
 class GeneratorFactory {
 
-    static func generatorWithSecretKey(key: String, type: OTPGeneratorType) -> OTPGenerator {
+    static func generatorWithSecretKey(key: String, type: OTPGeneratorType, secretIsBase32: Bool = true) -> OTPGenerator {
         switch(type) {
             case .HOTP:
                 var startCounter: UInt64 = 0
@@ -17,10 +17,10 @@ class GeneratorFactory {
                 if let counter = settings.objectForKey(DEFAULTS_COUNTER_KEY) as? NSNumber {
                     startCounter = counter.unsignedLongLongValue
                 }
-                return HOTPGenerator(secret: key, counter: startCounter)!
+                return HOTPGenerator(secret: key, counter: startCounter, secretIsBase32: secretIsBase32)!
 
             case .TOTP:
-                return TOTPGenerator(secret: key, period: 30)!
+                return TOTPGenerator(secret: key, period: 30, secretIsBase32: secretIsBase32)!
         }
     }
 
