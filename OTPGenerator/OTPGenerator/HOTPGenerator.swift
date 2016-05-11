@@ -44,7 +44,7 @@ public class HOTPGenerator: OTPGenerator {
      - returns: Generated token or nil
      */
     public func generateOTP() -> String? {
-        self.counter++
+        self.counter += 1
         return self.generateOTPForCounter(self.counter)
     }
 
