@@ -20,12 +20,12 @@ import Foundation
 /**
  Time based OTP generator
  */
-public class TOTPGenerator: OTPGenerator {
+open class TOTPGenerator: OTPGenerator {
 
     /**
     Time period for which token is valid
      */
-    private(set) public var period: NSTimeInterval
+    fileprivate(set) open var period: TimeInterval
 
     /**
     Initializer for the time based generator.
@@ -35,7 +35,7 @@ public class TOTPGenerator: OTPGenerator {
     - parameter pinLength: Length of generated tokens, must be between 1 and 8 digits, defaults to 6
     - parameter algorithm: Algorithm used for token generation, defaults to SHA1
     */
-    public init?(secret: String, period: NSTimeInterval, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.SHA1, secretIsBase32: Bool = true) {
+    public init?(secret: String, period: TimeInterval, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.sha1, secretIsBase32: Bool = true) {
         self.period = period
         super.init(secret: secret, pinLength: pinLength, algorithm: algorithm, secretIsBase32: secretIsBase32)
 
@@ -47,7 +47,7 @@ public class TOTPGenerator: OTPGenerator {
     /**
     Generates next available token
     */
-    public func generateOTP() -> String? {
+    open func generateOTP() -> String? {
         return self.generateOTPForDate()
     }
 
@@ -57,7 +57,7 @@ public class TOTPGenerator: OTPGenerator {
     - parameter date: Date for which token is generated
     - returns: Generated token or nil
     */
-    public func generateOTPForDate(date: NSDate = NSDate()) -> String? {
+    open func generateOTPForDate(_ date: Date = Date()) -> String? {
         let seconds = date.timeIntervalSince1970
         let counter = uint_fast64_t(seconds / self.period)
         return self.generateOTPForCounter(counter)

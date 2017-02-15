@@ -27,7 +27,7 @@ class OTPGeneratorTests: XCTestCase {
     }
 
     func testTokenFails() {
-        let generator = OTPGenerator(secret: "abc", pinLength: 1, algorithm: .SHA1)
+        let generator = OTPGenerator(secret: "abc", pinLength: 1, algorithm: .sha1)
         let token = generator?.generateOTP()
         XCTAssertNil(token)
     }

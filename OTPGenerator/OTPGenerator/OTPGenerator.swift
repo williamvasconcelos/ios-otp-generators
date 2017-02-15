@@ -21,30 +21,30 @@ import Foundation
 Encapsulates data for actual token generation.
 */
 public enum OTPAlgorithm: Int {
-    case SHA1, SHA256, SHA512, MD5
+    case sha1, sha256, sha512, md5
 
     var algorithm: CCHmacAlgorithm {
         switch self {
-        case SHA1:   return CCHmacAlgorithm(kCCHmacAlgSHA1)
-        case SHA256: return CCHmacAlgorithm(kCCHmacAlgSHA256)
-        case SHA512: return CCHmacAlgorithm(kCCHmacAlgSHA512)
-        case MD5:    return CCHmacAlgorithm(kCCHmacAlgMD5)
+        case .sha1:   return CCHmacAlgorithm(kCCHmacAlgSHA1)
+        case .sha256: return CCHmacAlgorithm(kCCHmacAlgSHA256)
+        case .sha512: return CCHmacAlgorithm(kCCHmacAlgSHA512)
+        case .md5:    return CCHmacAlgorithm(kCCHmacAlgMD5)
         }
     }
 
     var hashLength: Int32 {
         switch self {
-        case SHA1:   return CC_SHA1_DIGEST_LENGTH
-        case SHA256: return CC_SHA256_DIGEST_LENGTH
-        case SHA512: return CC_SHA512_DIGEST_LENGTH
-        case MD5:    return CC_MD5_DIGEST_LENGTH
+        case .sha1:   return CC_SHA1_DIGEST_LENGTH
+        case .sha256: return CC_SHA256_DIGEST_LENGTH
+        case .sha512: return CC_SHA512_DIGEST_LENGTH
+        case .md5:    return CC_MD5_DIGEST_LENGTH
         }
     }
 
 }
 
 protocol OTPGeneratorProtocol {
-    func generateOTPForCounter(counter: uint_fast64_t) -> String?
+    func generateOTPForCounter(_ counter: uint_fast64_t) -> String?
     func generateOTP() -> String?
 }
 
@@ -62,12 +62,12 @@ extension OTPGeneratorProtocol {
 /**
 Base class for generator, this is a place where magic happens
 */
-public class OTPGenerator: OTPGeneratorProtocol {
+open class OTPGenerator: OTPGeneratorProtocol {
 
-    private var secretKey: NSData
-    private var pinModeTable = [0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000]
-    private var pinLength: Int
-    private var algorithm: OTPAlgorithm
+    fileprivate var secretKey: Data
+    fileprivate var pinModeTable = [0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000]
+    fileprivate var pinLength: Int
+    fileprivate var algorithm: OTPAlgorithm
 
     /**
     Base initializer for generators. It may fail if requested token length
@@ -77,14 +77,14 @@ public class OTPGenerator: OTPGeneratorProtocol {
     - parameter pinLength: Length of generated tokens, must be between 1 and 8 digits
     - parameter algorithm: Algorigthm used for token generation, defaults to SHA1
     */
-    internal init?(secret: String, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.SHA1, secretIsBase32: Bool = true) {
-        self.secretKey = secret.dataUsingEncoding(NSUTF8StringEncoding)!
+    internal init?(secret: String, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.sha1, secretIsBase32: Bool = true) {
+        self.secretKey = secret.data(using: String.Encoding.utf8)!
         self.pinLength = pinLength
         self.algorithm = algorithm
 
         if secretIsBase32 {
             if let secretKey = secret.base32DecodedData {
-                self.secretKey = secretKey
+                self.secretKey = secretKey as Data
             }
             else {
                 return nil
@@ -103,28 +103,38 @@ public class OTPGenerator: OTPGeneratorProtocol {
     - parameter counter: Value for which token is generated
     - returns: Generated token or nil
     */
-    func generateOTPForCounter(counter: uint_fast64_t) -> String? {
+    func generateOTPForCounter(_ counter: uint_fast64_t) -> String? {
         guard let hash = NSMutableData(length: Int(self.algorithm.hashLength)) else {
             return nil
         }
 
         var newCounter = NSSwapHostLongLongToBig(counter)
-        let counterData = NSData(bytes: &newCounter, length: sizeof(uint_fast64_t))
+        let counterData = withUnsafePointer(to: &newCounter) {
+            Data(bytes: UnsafePointer($0), count: MemoryLayout.size(ofValue: newCounter))
+        }
+            //Data(bytes: UnsafeRawPointer(&newCounter), count: sizeof(uint_fast64_t))
         let algorithm: CCHmacAlgorithm = self.algorithm.algorithm
 
         var ctx = CCHmacContext()
-        CCHmacInit(&ctx, algorithm, self.secretKey.bytes, self.secretKey.length)
-        CCHmacUpdate(&ctx, counterData.bytes, counterData.length)
+        CCHmacInit(&ctx, algorithm, (self.secretKey as NSData).bytes, self.secretKey.count)
+        CCHmacUpdate(&ctx, (counterData as NSData).bytes, counterData.count)
         CCHmacFinal(&ctx, hash.mutableBytes)
 
-        let count = hash.length / sizeof(CChar)
-        var array = [CChar](count: count, repeatedValue: 0)
-        hash.getBytes(&array, length: count * sizeof(CChar))
+        let count = hash.length / MemoryLayout<CChar>.size
+        var array = [CChar](repeating: 0, count: count)
+        hash.getBytes(&array, length: count * MemoryLayout<CChar>.size)
+
+        let u32 = array.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
+            let offset = Int(ptr[self.algorithm.hashLength - 1] & 0x0f)
+
+            let truncatedPtr = ptr + offset
+            return truncatedPtr.withMemoryRebound(to: UInt32.self, capacity: 1) { $0.pointee }
+        }
 
         let offset = Int(array[self.algorithm.hashLength - 1] & 0x0f)
 
         let pinBytes: [CChar] = [array[offset], array[offset + 1], array[offset + 2], array[offset + 3]]
-        let u32 = UnsafePointer<UInt32>(pinBytes).memory
+//        let u32 = UInt32(UnsafePointer(pinBytes).pointee)
 
         let truncated = NSSwapBigIntToHost(u32) & 0x7fffffff
         let pinValue = Int(truncated) % self.pinModeTable[self.pinLength]

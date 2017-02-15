@@ -20,10 +20,10 @@ import Foundation
 /**
  Counter based generator
  */
-public class HOTPGenerator: OTPGenerator {
+open class HOTPGenerator: OTPGenerator {
 
     // The counter, incremented on each generated OTP.
-    private var counter: uint_fast64_t = 0
+    fileprivate var counter: uint_fast64_t = 0
 
     /**
      Initializer for the counter based generator.
@@ -33,7 +33,7 @@ public class HOTPGenerator: OTPGenerator {
      - parameter pinLength: Length of generated tokens, must be between 1 and 8 digits, defaults to 6
      - parameter algorithm: Algorithm used for token generation, defaults to SHA1
      */
-    public init?(secret: String, counter: uint_fast64_t, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.SHA1, secretIsBase32: Bool = true) {
+    public init?(secret: String, counter: uint_fast64_t, pinLength: Int = 6, algorithm: OTPAlgorithm = OTPAlgorithm.sha1, secretIsBase32: Bool = true) {
         self.counter = counter
         super.init(secret: secret, pinLength: pinLength, algorithm: algorithm, secretIsBase32: secretIsBase32)
     }
@@ -43,7 +43,7 @@ public class HOTPGenerator: OTPGenerator {
 
      - returns: Generated token or nil
      */
-    public func generateOTP() -> String? {
+    open func generateOTP() -> String? {
         self.counter += 1
         return self.generateOTPForCounter(self.counter)
     }

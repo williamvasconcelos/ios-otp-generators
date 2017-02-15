@@ -20,8 +20,8 @@ import XCTest
 
 class HOTPGeneratorTests: XCTestCase {
 
-    let generator1 = HOTPGenerator(secret: "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", counter: 0, pinLength: 6, algorithm: .SHA1)
-    let generator2 = HOTPGenerator(secret: "12345678901234567890", counter: 0, pinLength: 6, algorithm: .SHA1, secretIsBase32: false)
+    let generator1 = HOTPGenerator(secret: "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", counter: 0, pinLength: 6, algorithm: .sha1)
+    let generator2 = HOTPGenerator(secret: "12345678901234567890", counter: 0, pinLength: 6, algorithm: .sha1, secretIsBase32: false)
 
     let results = [
         "287082", "359152", "969429", "338314", "254676",

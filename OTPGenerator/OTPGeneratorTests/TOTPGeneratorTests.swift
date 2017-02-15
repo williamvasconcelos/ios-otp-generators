@@ -20,8 +20,8 @@ import XCTest
 
 class TOTPGeneratorTests: XCTestCase {
 
-    let intervals: [NSTimeInterval] = [59, 1111111109, 1111111111, 1234567890, 2000000000, 20000000000]
-    let algorithms = [OTPAlgorithm.SHA1, OTPAlgorithm.SHA256, OTPAlgorithm.SHA512, OTPAlgorithm.MD5]
+    let intervals: [TimeInterval] = [59, 1111111109, 1111111111, 1234567890, 2000000000, 20000000000]
+    let algorithms = [OTPAlgorithm.sha1, OTPAlgorithm.sha256, OTPAlgorithm.sha512, OTPAlgorithm.md5]
     let results = [
         // SHA1    SHA256    SHA512     MD5
         "287082", "247374", "342147", "532013",
@@ -33,19 +33,19 @@ class TOTPGeneratorTests: XCTestCase {
     ]
 
     func testInitOK() {
-        let generator = TOTPGenerator(secret: "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", period: 30, pinLength: 1, algorithm: .SHA1)
+        let generator = TOTPGenerator(secret: "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", period: 30, pinLength: 1, algorithm: .sha1)
         XCTAssertNotNil(generator)
     }
 
     func testInitFail() {
-        let generator1 = TOTPGenerator(secret: "abc", period: 30, pinLength: 0, algorithm: .SHA1)
-        let generator2 = TOTPGenerator(secret: "abc", period: 0, pinLength: 6, algorithm: .SHA1)
+        let generator1 = TOTPGenerator(secret: "abc", period: 30, pinLength: 0, algorithm: .sha1)
+        let generator2 = TOTPGenerator(secret: "abc", period: 0, pinLength: 6, algorithm: .sha1)
         XCTAssertNil(generator1)
         XCTAssertNil(generator2)
     }
 
     func testDefaultGeneratorToken() {
-        let generator = TOTPGenerator(secret: "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", period: 30, pinLength: 6, algorithm: .SHA1)
+        let generator = TOTPGenerator(secret: "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", period: 30, pinLength: 6, algorithm: .sha1)
         let token = generator?.generateOTP()
         XCTAssertNotNil(token)
     }
@@ -58,9 +58,9 @@ class TOTPGeneratorTests: XCTestCase {
         for interval in intervals {
             for algorithm in algorithms {
                 let generator = TOTPGenerator(secret: "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", period: 30, pinLength: 6, algorithm: algorithm)
-                let date = NSDate(timeIntervalSince1970: interval)
+                let date = Date(timeIntervalSince1970: interval)
                 XCTAssertEqual(results[i], generator!.generateOTPForDate(date), "Invalid results \(interval) - \(algorithm)")
-                i++
+                i += 1
             }
         }
     }
@@ -70,9 +70,9 @@ class TOTPGeneratorTests: XCTestCase {
         for interval in intervals {
             for algorithm in algorithms {
                 let generator = TOTPGenerator(secret: "12345678901234567890", period: 30, pinLength: 6, algorithm: algorithm, secretIsBase32: false)
-                let date = NSDate(timeIntervalSince1970: interval)
+                let date = Date(timeIntervalSince1970: interval)
                 XCTAssertEqual(results[i], generator!.generateOTPForDate(date), "Invalid results \(interval) - \(algorithm)")
-                i++
+                i += 1
             }
         }
 
