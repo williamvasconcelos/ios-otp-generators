@@ -44,7 +44,7 @@ public enum OTPAlgorithm: Int {
 }
 
 protocol OTPGeneratorProtocol {
-    func generateOTPForCounter(_ counter: uint_fast64_t) -> String?
+    func generateOTPForCounter(_ counter: UInt64) -> String?
     func generateOTP() -> String?
 }
 
@@ -103,41 +103,32 @@ open class OTPGenerator: OTPGeneratorProtocol {
     - parameter counter: Value for which token is generated
     - returns: Generated token or nil
     */
-    func generateOTPForCounter(_ counter: uint_fast64_t) -> String? {
-        guard let hash = NSMutableData(length: Int(self.algorithm.hashLength)) else {
-            return nil
-        }
-
-        var newCounter = NSSwapHostLongLongToBig(counter)
-        let counterData = withUnsafePointer(to: &newCounter) {
-            Data(bytes: UnsafePointer($0), count: MemoryLayout.size(ofValue: newCounter))
-        }
-            //Data(bytes: UnsafeRawPointer(&newCounter), count: sizeof(uint_fast64_t))
+    func generateOTPForCounter(_ counter: UInt64) -> String? {
+        var newCounter = counter.bigEndian
+        let counterData = Data(bytes: &newCounter, count: MemoryLayout.size(ofValue: newCounter))
         let algorithm: CCHmacAlgorithm = self.algorithm.algorithm
 
-        var ctx = CCHmacContext()
-        CCHmacInit(&ctx, algorithm, (self.secretKey as NSData).bytes, self.secretKey.count)
-        CCHmacUpdate(&ctx, (counterData as NSData).bytes, counterData.count)
-        CCHmacFinal(&ctx, hash.mutableBytes)
+        let hashPtr = UnsafeMutablePointer<UInt8>.allocate(capacity: Int(self.algorithm.hashLength))
+        defer { hashPtr.deallocate(capacity: Int(self.algorithm.hashLength)) }
 
-        let count = hash.length / MemoryLayout<CChar>.size
-        var array = [CChar](repeating: 0, count: count)
-        hash.getBytes(&array, length: count * MemoryLayout<CChar>.size)
-
-        let u32 = array.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
-            let offset = Int(ptr[self.algorithm.hashLength - 1] & 0x0f)
-
-            let truncatedPtr = ptr + offset
-            return truncatedPtr.withMemoryRebound(to: UInt32.self, capacity: 1) { $0.pointee }
+        self.secretKey.withUnsafeBytes { secretBytes in
+            counterData.withUnsafeBytes { counterBytes in
+                CCHmac(algorithm, secretBytes, self.secretKey.count, counterBytes, counterData.count, hashPtr)
+            }
         }
 
-        let offset = Int(array[self.algorithm.hashLength - 1] & 0x0f)
+        let hash = Data(bytes: hashPtr, count: Int(self.algorithm.hashLength))
+        var truncatedHash = hash.withUnsafeBytes { (ptr: UnsafePointer<UInt8>) -> UInt32 in
+            let offset = ptr[hash.count - 1] & 0x0f
+            let truncatedHashPtr = ptr + Int(offset)
+            return truncatedHashPtr.withMemoryRebound(to: UInt32.self, capacity: 1) {
+                $0.pointee
+            }
+        }
+        truncatedHash = UInt32(bigEndian: truncatedHash)
+        truncatedHash = truncatedHash & 0x7fffffff
 
-        let pinBytes: [CChar] = [array[offset], array[offset + 1], array[offset + 2], array[offset + 3]]
-//        let u32 = UInt32(UnsafePointer(pinBytes).pointee)
-
-        let truncated = NSSwapBigIntToHost(u32) & 0x7fffffff
-        let pinValue = Int(truncated) % self.pinModeTable[self.pinLength]
+        let pinValue = truncatedHash % UInt32(self.pinModeTable[self.pinLength])
 
         return String(format: "%0*u", self.pinLength, pinValue)
     }
