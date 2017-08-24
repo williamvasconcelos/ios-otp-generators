@@ -1,0 +1,37 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "29710FDE94E9DCED976F79A720BF9D900EA50484+++528D086",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "29710FDE94E9DCED976F79A720BF9D900EA50484+++EC197E9" : 0,
+    "29710FDE94E9DCED976F79A720BF9D900EA50484+++528D086" : 0,
+    "29710FDE94E9DCED976F79A720BF9D900EA50484+++D4E55BC" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "EC807C25-16E1-4E29-9E0E-04523EE31824",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "29710FDE94E9DCED976F79A720BF9D900EA50484+++EC197E9" : "MFATokenGenerator\/",
+    "29710FDE94E9DCED976F79A720BF9D900EA50484+++528D086" : "ios-otp-generators\/",
+    "29710FDE94E9DCED976F79A720BF9D900EA50484+++D4E55BC" : "MFATokenGenerator\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "OTPGenerator",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "OTPGenerator\/OTPGenerator.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:codewise\/ios-otp-generators.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "29710FDE94E9DCED976F79A720BF9D900EA50484+++528D086"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:codewise\/ios-otp-generators.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "29710FDE94E9DCED976F79A720BF9D900EA50484+++D4E55BC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/codewise\/ios-otp-generators.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "29710FDE94E9DCED976F79A720BF9D900EA50484+++EC197E9"
+    }
+  ]
+}
