@@ -2,10 +2,10 @@ language: objective-c
 
 xcode_project: OTPGenerator/OTPGenerator.xcodeproj
 xcode_scheme: OTPGeneratorTests
-osx_image: xcode8.2
+osx_image: xcode9
 
 install:
 - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 
 script:
-- set -o pipefail && xcodebuild -project OTPGenerator/OTPGenerator.xcodeproj -scheme OTPGeneratorTests -sdk iphonesimulator -destination "platform=iOS Simulator,OS=10.1,name=iPhone 6" test | xcpretty -c
+- set -o pipefail && xcodebuild -project OTPGenerator/OTPGenerator.xcodeproj -scheme OTPGeneratorTests -sdk iphonesimulator -destination "platform=iOS Simulator,OS=11.0,name=iPhone 6" test | xcpretty -c
