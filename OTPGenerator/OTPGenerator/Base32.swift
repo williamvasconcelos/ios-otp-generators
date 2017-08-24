@@ -104,7 +104,7 @@ extension String {
 
     public func base32DecodedString(_ encoding: String.Encoding = String.Encoding.utf8) -> String? {
         if let data = self.base32DecodedData {
-            return NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
+            return String(data: data, encoding: .utf8)
         } else {
             return nil
         }
@@ -123,7 +123,7 @@ extension String {
 
     public func base32HexDecodedString(_ encoding: String.Encoding = String.Encoding.utf8) -> String? {
         if let data = self.base32HexDecodedData {
-            return NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
+            return String(data: data, encoding: .utf8)
         } else {
             return nil
         }
@@ -141,7 +141,7 @@ extension Data {
     }
 
     public var base32DecodedData: Data? {
-        if let string = NSString(data: self, encoding: String.Encoding.utf8.rawValue) as? String {
+        if let string = String(data: self, encoding: .utf8){
             return base32DecodeToData(string)
         } else {
             return nil
@@ -158,7 +158,7 @@ extension Data {
     }
 
     public var base32HexDecodedData: Data? {
-        if let string = NSString(data: self, encoding: String.Encoding.utf8.rawValue) as? String {
+        if let string = String(data: self, encoding: .utf8){
             return base32HexDecodeToData(string)
         } else {
             return nil
